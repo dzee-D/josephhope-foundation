@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Joseph Hope Foundation</title>
+  
+  <style>
+    :root{
+      --bg:#f7fafc;--card:#ffffff;--muted:#6b7280;--accent:#f59e0b;--accent-2:#10b981;--glass: rgba(255,255,255,0.6);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,#fbfbfd,var(--bg));color:#0f172a;}
+
+    header{position:sticky;top:0;backdrop-filter:blur(6px);background:rgba(255,255,255,0.7);border-bottom:1px solid rgba(15,23,42,0.04);z-index:60}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.75rem 1.25rem;max-width:1200px;margin:0 auto}
+    .brand{display:flex;align-items:center;gap:.75rem}
+   .image{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ef4444);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    nav ul{display:flex;gap:.5rem;align-items:center;list-style:none;margin:0;padding:0}
+    nav a{padding:.5rem .75rem;border-radius:8px;text-decoration:none;color:var(--muted);font-weight:600}
+    nav a.active, nav a:hover{color:var(--accent);background:rgba(245,158,11,0.08)}
+
+    .container{max-width:1200px;margin:2rem auto;padding:0 1rem}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:1.5rem;align-items:center}
+    .hero-card{background:var(--card);padding:1.5rem;border-radius:16px;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
+    .h-title{font-size:1.6rem;margin:0 0 .25rem}
+    .h-sub{margin:0 0 1rem;color:var(--muted)}
+    .cta-row{display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn{background:var(--accent);color:white;padding:.6rem .9rem;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+    .btn.outline{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--muted)}
+
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:1rem}
+    .card{background:var(--card);padding:1rem;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.04)}
+    .small{font-size:.9rem;color:var(--muted)}
+
+    section{margin:2.5rem 0}
+    .split{display:grid;grid-template-columns:1fr 360px;gap:1rem}
+
+    /* Segments area */
+    .segments{display:grid;grid-template-columns:1fr 360px;gap:1rem}
+    .segments .panel{background:var(--card);padding:1rem;border-radius:12px}
+    .segment-list{display:flex;flex-direction:column;gap:.4rem}
+    .segment-item{padding:.6rem;border-radius:8px;display:flex;gap:.6rem;align-items:center;cursor:pointer}
+    .segment-item:hover{background:rgba(2,6,23,0.03)}
+    .segment-item.active{background:linear-gradient(90deg,rgba(245,158,11,0.12),rgba(16,185,129,0.06))}
+
+    .segment-detail{background:var(--card);padding:1rem;border-radius:12px;box-shadow:0 10px 40px rgba(2,6,23,0.04)}
+    .seg-title{display:flex;justify-content:space-between;align-items:center}
+    .seg-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:.6rem}
+    .seg-gallery img{width:100%;height:60px;object-fit:cover;border-radius:6px;cursor:pointer}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+    footer{border-top:1px solid rgba(15,23,42,0.04);padding:1.25rem 0;margin-top:2rem}
+    .contact{display:flex;gap:1rem;align-items:center}
+
+    /* Modal/Lightbox */
+    .lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:120}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:90%;max-height:80%;border-radius:8px;box-shadow:0 20px 40px rgba(2,6,23,0.6)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .segments{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
+      .seg-gallery{grid-template-columns:repeat(3,1fr)}
+      .seg-gallery img{height:90px}
+    }
+
+    /* small niceties */
+    .pill{display:inline-block;padding:.3rem .5rem;border-radius:999px;background:rgba(2,6,23,0.04);font-weight:700;color:var(--muted)}
+    .fade-in{animation:fadeUp .6s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    .sponsor-box, .testimony{background:linear-gradient(180deg,#fff,rgba(245,158,11,0.03));padding:1rem;border-radius:12px}
+    textarea,input,select{width:100%;padding:.6rem;border-radius:8px;border:1px solid rgba(15,23,42,0.06)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">JH</div>
+        <div>
+          <div style="font-weight:800">Joseph Hope Foundation</div>
+          <div style="font-size:.8rem;color:var(--muted)">Caring • Reaching • Restoring</div>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#segments">Segments</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="home" class="hero">
+      <div class="hero-card fade-in">
+        <h1 class="h-title">Joseph Hope Foundation</h1>
+        <p class="h-sub">A non-profit organisation reaching rural communities across Nigeria — schools, medical outreaches, crusades, empowerment programs and more.</p>
+        <div class="cta-row">
+          <button class="btn" onclick="scrollToSection('segments')">Explore Our Segments</button>
+          <button class="btn outline" onclick="scrollToSection('contact')">Get Involved</button>
+        </div>
+
+        <div class="cards">
+          <div class="card small">
+            <div style="font-weight:800">Address</div>
+            <div class="small">No.14 Jos Road, Plateau State</div>
+          </div>
+          <div class="card small">
+            <div style="font-weight:800">Founders</div>
+            <div class="small">Pst Joseph Ishaku & Mrs Ishaku Christiana</div>
+          </div>
+          <div class="card small">
+            <div style="font-weight:800">Contact</div>
+            <div class="small">08031311923 • josephhopefoundation@gmail.com</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-card fade-in">
+        <div style="font-weight:800">Preamble</div>
+        <p class="big">Joseph Hope Foundation is a Non-governmental, non partisan organization. It is an Interdenominational body that cuts cross ethnic groups and tribe. Its overall objectives as the name implies, focuses on programs and activities aimed at affecting lives positivelywith Biblical/Kingdom truths.</p>
+
+        <div style="margin-top:.75rem">
+          <div style="font-weight:800">Vision</div>
+          <div class="small">Building People, and Improving the lives of less priviledge men, women and children in rural and urban communities through the, education, health, economic empowerment and social amenities.</div>
+        </div>
+
+        <div style="margin-top:.6rem">
+          <div style="font-weight:800">Mission</div>
+          <div class="small">To inspire breakthroughs in the way the world treats the hopeless and to achieve immediate and lasting change in their lives.</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about">
+      <div class="segment-detail">
+        <h2 style="margin:.2rem 0">Aims & Objectives</h2>
+        <ul class="small">
+          <li>To reach the unreached through the Gospel.</li>
+          <li>Provide Free Medical Care.</li>
+          <li>Empowering Youths on skill Acquisition</li>
+          <li>Help the less priviledge to start up small scale business.</li>
+          <li>Helping the children of the destitute with free education (scholarship).</li>
+          <li>Organizing Crusades to urban and rural areas.</li>
+          <li>Organizing seminars for people living with HIV.</li>
+          <li>Sport Development.</li>
+        </ul>
+
+        <div style="margin-top:1rem" class="grid-2">
+          <div>
+            <h3 style="margin:.2rem 0">Foundation Details</h3>
+            <p class="small">Registered NGO operating across Nigeria with partnerships in education, healthcare and community development.</p>
+          </div>
+          <div>
+            <h3 style="margin:.2rem 0">Ambition & Collaboration</h3>
+            <p class="small">We are demanding from ourselves and our colleagues, set high goals and are committed to improving the quality we do for the less priviledge.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="segments">
+      <div style="display:flex;gap:1rem;flex-direction:column">
+        <h2 style="margin:.2rem 0">Our Segments</h2>
+        <div class="segments">
+          <div class="panel">
+            <div class="segment-list" id="segmentList">
+              <!-- items injected by JS -->
+            </div>
+          </div>
+          <div class="segment-detail" id="segmentDetail">
+            <!-- details injected by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <h2 style="margin:.2rem 0">Gallery Highlights</h2>
+      <div class="cards" id="mainGallery">
+        <!-- thumbnails injected -->
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 style="margin:.2rem 0">Contact & Support</h2>
+      <div class="split">
+        <form class="hero-card" onsubmit="submitForm(event)">
+          <div style="font-weight:800;margin-bottom:.5rem">Get In Touch / Volunteer</div>
+          <input required placeholder="Full name" id="name" />
+          <input required placeholder="Email" id="email" style="margin-top:.6rem" />
+          <input placeholder="Phone" id="phone" style="margin-top:.6rem" />
+          <select id="interest" style="margin-top:.6rem">
+            <option value="General">General</option>
+            <option value="Volunteer">Volunteer</option>
+            <option value="Donate">Donate / Sponsor</option>
+            <option value="Partnership">Partnership</option>
+          </select>
+          <textarea placeholder="Message" id="message" style="margin-top:.6rem" rows="4"></textarea>
+          <div style="display:flex;gap:.5rem;margin-top:.6rem">
+            <button class="btn" type="submit">Send Message</button>
+            <button type="button" class="btn outline" onclick="prefillSponsor()">Sponsor a Project</button>
+          </div>
+        </form>
+
+        <aside class="hero-card">
+          <div style="font-weight:800">Foundation Info</div>
+          <div class="small" style="margin-top:.4rem">No.14 Jos Road, Plateau State</div>
+          <div class="small">Mobile: 08031311923</div>
+          <div class="small">Email: josephhopefoundation@gmail.com</div>
+          <div style="margin-top:.8rem" class="pill">Founders: Pst Joseph Ishaku & Mrs Ishaku Christiana</div>
+
+          <div style="margin-top:1rem">
+            <h4 style="margin:.2rem 0">Support Options</h4>
+            <div class="sponsor-box small">
+              <strong>Donate / Sponsor</strong>
+              <p class="small">Support education, healthcare or empowerment programs. Contact us via the form or call the mobile number above.</p>
+            </div>
+
+            <div style="margin-top:.6rem" class="testimony small">
+              <strong>Testimony</strong>
+              <p>"I received free care and skills training that changed my family's life." — Beneficiary</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+        <div>
+          <strong>Joseph Hope Foundation</strong>
+          <div class="small">No.14 Jos Road, Plateau State • 08031311923 • josephhopefoundation@gmail.com</div>
+        </div>
+        <div style="font-size:.9rem;color:var(--muted)">© Joseph Hope Foundation — Serving since 1995 </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)"><img id="lightboxImg" src="" alt=""/></div>
+
+  <script>
+    // Data for all segments
+    const segments = [
+      {
+        id: 'schools',
+        title: 'Joseph Hope Schools',
+        tagline: 'Quality, compassionate education for rural children.',
+        vision: 'Every child equipped to thrive in school and life.',
+        mission: 'Deliver affordable primary education with strong community involvement.',
+        pics: [
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0003.jpg?updatedAt=1760725467914',
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0004.jpg?updatedAt=1760725560770',
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0008.jpg?updatedAt=1760725560363',
+          'https://ik.imagekit.io/orawumykf/IMG-20251012-WA0029.jpg?updatedAt=1760725561562',
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0002.jpg?updatedAt=1760725560568',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0013.jpg?updatedAt=1760775330831',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0000.jpg?updatedAt=1760776046201'
+        ],
+        writeup: 'Joseph Hope Schools aim to provide accessible primary education in rural communities, using local teachers and a curriculum focused on literacy, numeracy and life skills.'
+      },
+
+      {
+        id: 'crusades',
+        title: 'Crusades',
+        tagline: 'Spiritual outreach through large-scale evangelistic events.',
+        vision: 'Communities transformed through hope and faith.',
+        mission: 'Organise vibrant crusades to bring spiritual encouragement and community fellowship.',
+        pics: [
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0023.jpg?updatedAt=1760775754062',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0014.jpg?updatedAt=1760775818937',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0030.jpg?updatedAt=1760775905879',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0028.jpg?updatedAt=1760775326448'
+          
+        ],
+        writeup: 'Crusades are organised quarterly, bringing worship, dynamic preaching and free community services during the events.'
+      },
+
+      {
+        id: 'medical',
+        title: 'Free Medical Outreaches',
+        tagline: 'Bringing basic healthcare to those who need it most.',
+        vision: 'Healthy families and empowered communities.',
+        mission: 'Deliver free general, dental and maternal care during outreach events.',
+        pics: [
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0009.jpg?updatedAt=1760774270914',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0008.jpg?updatedAt=1760774271207',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0024.jpg?updatedAt=1760774270948',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0027.jpg?updatedAt=1760774270989',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0017.jpg?updatedAt=1760774585716',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0007.jpg?updatedAt=1760774271268',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0018.jpg?updatedAt=1760774970001',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0015.jpg?updatedAt=1760775867618',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0004.jpg?updatedAt=1760775325236',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0029.jpg?updatedAt=1760775330387'
+      
+        ],
+        writeup: 'Regular free medical outreaches offering consultations, medication, immunisation awareness and dental check-ups in partnership with volunteer clinicians.'
+      },
+
+      {
+        id: 'project-m2819',
+        title: 'Project M2819 (Evangelism)',
+        tagline: 'Targeted evangelism and community discipleship programs.',
+        vision: 'This Group is an interdenominational project this means that its not fixed on a particular Church or Ministry. The purpose of this group is fixated on Growth and Discipleship and Evangelism. Creating an atmosphere for believers to grow in Christ be Discipled and Evangelize.',
+        mission: 'Project M2819 (Project Matthew 28:19) Great Commission, making Disciples of all Nations.',
+        pics: [
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0025.jpg?updatedAt=1760726522503',
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0023.jpg?updatedAt=1760726500696',
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0021.jpg?updatedAt=1760726522501',
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0022.jpg?updatedAt=1760726523288',
+          'https://ik.imagekit.io/orawumykf/IMG-20251017-WA0024.jpg?updatedAt=1760726522707'
+        ],
+        writeup: 'Project M2819 focuses on evangelism that combines preaching with community development activities for sustainable impact.'
+      },
+
+      {
+        id: 'mothers',
+        title: 'Mothers of Hope (Women Empowerment)',
+        tagline: 'Economic empowerment and support for women.',
+        vision: 'Raising Kingdom Minded Leaders Making Impact Globally.',
+        mission: 'Inspire, Educate, and Transform Lives.',
+        pics: [
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0031.jpg?updatedAt=1760775484610',
+          'https://ik.imagekit.io/orawumykf/IMG-20251012-WA0034.jpg?updatedAt=1760776793315',
+          'https://ik.imagekit.io/orawumykf/IMG-20251012-WA0027.jpg?updatedAt=1760776793328',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0022.jpg?updatedAt=1760775975751',
+          'https://ik.imagekit.io/orawumykf/IMG-20251018-WA0002.jpg?updatedAt=1760776013840'
+        ],
+        writeup: 'Mothers of Hope equips women with marketable skills, small grants and business coaching to start or grow enterprises.'
+      },
+
+      {
+        id: 'football',
+        title: 'Joseph Football Academy',
+        tagline: 'Training young talents for sport and life.',
+        vision: 'Young athletes with character and opportunity.',
+        mission: 'Provide coaching, equipment and scholarship opportunities for talented youth.',
+        pics: [
+          
+        ],
+        writeup: 'A grassroots football academy offering weekly training, mentorship and occasional fixtures for exposure.'
+      },
+
+      {
+        id: 'skills',
+        title: "The Josephs' Skills Acquisition (Youth Empowerment)",
+        tagline: 'Practical skills for employment and entrepreneurship.',
+        vision: 'Youth empowered to build sustainable livelihoods.',
+        mission: 'Offer short courses in tailoring, ICT, carpentry, and cosmetology alongside business skills training.',
+        pics: [
+          
+        ],
+        writeup: 'Short, practical programs that give youth hands-on experience and link them to microfinance or apprenticeship opportunities.'
+      }
+    ];
+
+    // initialize UI
+    const segmentList = document.getElementById('segmentList');
+    const segmentDetail = document.getElementById('segmentDetail');
+    const mainGallery = document.getElementById('mainGallery');
+
+    segments.forEach((s, idx) => {
+      const item = document.createElement('div');
+      item.className = 'segment-item' + (idx===0 ? ' active' : '');
+      item.dataset.id = s.id;
+      item.innerHTML = `<div style=\"width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700\">${s.title.split(' ').slice(0,2).map(w=>w[0]||'').join('')}</div><div><strong style=\"font-size:.95rem\">${s.title}</strong><div class=\"small\">${s.tagline}</div></div>`;
+      item.addEventListener('click',()=>selectSegment(s.id));
+      segmentList.appendChild(item);
+
+      // main gallery thumb
+      const thumb = document.createElement('div');
+      thumb.className='card small';
+      thumb.innerHTML = `<img src="${s.pics[0]}" style=\"width:100%;height:160px;object-fit:cover;border-radius:8px;\" onclick=\"openLB('${s.pics[0]}')\"/><div style=\"margin-top:.5rem;font-weight:700\">${s.title}</div><div class=\"small\">${s.tagline}</div>`;
+      mainGallery.appendChild(thumb);
+    });
+
+    function selectSegment(id){
+      // update active class
+      document.querySelectorAll('.segment-item').forEach(it=>it.classList.toggle('active', it.dataset.id===id));
+      const s = segments.find(x=>x.id===id);
+      renderDetail(s);
+    }
+
+    function renderDetail(s){
+      segmentDetail.innerHTML = `
+        <div class="seg-title">
+          <div>
+            <h3 style="margin:.2rem 0">${s.title}</h3>
+            <div class="small">${s.tagline}</div>
+          </div>
+          <div class="pill">${s.id.toUpperCase()}</div>
+        </div>
+        <p style="margin-top:.6rem" class="small">${s.writeup}</p>
+        <div style="margin-top:.6rem" class="grid-2 small">
+          <div>
+            <strong>Vision</strong>
+            <div>${s.vision}</div>
+          </div>
+          <div>
+            <strong>Mission</strong>
+            <div>${s.mission}</div>
+          </div>
+        </div>
+        <div style="margin-top:.8rem">
+          <strong>Gallery</strong>
+          <div class="seg-gallery" id="segGallery-${s.id}"></div>
+        </div>
+        <div style="margin-top:.8rem;display:flex;gap:.5rem">
+          <button class="btn" onclick="openAll('${s.id}')">View All</button>
+          <button class="btn outline" onclick="shareSegment('${s.title}')">Share</button>
+        </div>
+      `;
+
+      const g = document.getElementById(`segGallery-${s.id}`);
+      s.pics.forEach(p=>{
+        const img = document.createElement('img');
+        img.src = p;
+        img.alt = s.title;
+        img.addEventListener('click',()=>openLB(p));
+        g.appendChild(img);
+      });
+    }
+
+    // initial detail
+    renderDetail(segments[0]);
+
+    // lightbox
+    function openLB(src){
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      lbImg.src = src;
+      lb.classList.add('open');
+    }
+    function closeLightbox(e){
+      if(e.target.id === 'lightbox'){
+        document.getElementById('lightbox').classList.remove('open');
+      }
+    }
+
+    function openAll(id){
+      const s = segments.find(x=>x.id===id);
+      if(!s) return;
+      // open first image as entry to lightbox and allow keyboard next
+      openLB(s.pics[0]);
+      // store index
+      window.__gallery = {imgs:s.pics, idx:0};
+    }
+
+    // keyboard nav in lightbox
+    document.addEventListener('keydown',(e)=>{
+      const g = window.__gallery;
+      if(!document.getElementById('lightbox').classList.contains('open')) return;
+      if(e.key==='ArrowRight'){ if(g){g.idx=(g.idx+1)%g.imgs.length; document.getElementById('lightboxImg').src=g.imgs[g.idx];} }
+      if(e.key==='ArrowLeft'){ if(g){g.idx=(g.idx-1+g.imgs.length)%g.imgs.length; document.getElementById('lightboxImg').src=g.imgs[g.idx];} }
+      if(e.key==='Escape') document.getElementById('lightbox').classList.remove('open');
+    });
+
+    function shareSegment(title){
+      const text = `Check out ${title} at Joseph Hope Foundation`;
+      if(navigator.share){
+        navigator.share({title,text,url:location.href}).catch(()=>alert('Share cancelled'));
+      }else{
+        navigator.clipboard.writeText(text+' - '+location.href).then(()=>alert('Link copied to clipboard'));
+      }
+    }
+
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    function submitForm(e){
+      e.preventDefault();
+      const data = {
+        name:document.getElementById('name').value,
+        email:document.getElementById('email').value,
+        phone:document.getElementById('phone').value,
+        interest:document.getElementById('interest').value,
+        message:document.getElementById('message').value,
+        time: new Date().toISOString()
+      };
+      console.log('Form submitted',data);
+      alert('Thanks '+(data.name||'friend')+" — we'll get back to you soon. (Demo mode)");
+      e.target.reset();
+    }
+
+    function prefillSponsor(){
+      document.getElementById('interest').value = 'Donate';
+      document.getElementById('message').value = 'I would like to sponsor a project / child. Please advise on next steps.';
+      scrollToSection('contact');
+    }
+
+    // smooth highlight nav on scroll
+    const navLinks = document.querySelectorAll('nav a');
+    const sections = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href')));
+    window.addEventListener('scroll',()=>{
+      let idx = sections.findIndex(s=>s && s.getBoundingClientRect().top>80) - 1;
+      if(idx<0) idx = sections.length-1;
+      navLinks.forEach((a,i)=>a.classList.toggle('active', i===idx));
+    });
+  </script>
+</body>
+</html>
+
+
